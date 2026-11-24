@@ -1,0 +1,141 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}TaskFlow{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body>
+
+    {% if user.is_authenticated %}
+
+    <div class="app-wrapper">
+
+        <aside class="sidebar">
+
+            <a href="{% url 'dashboard' %}" class="logo">
+                <span class="logo-icon">✦</span>
+                Task<span>Flow</span>
+            </a>
+
+            <div class="sidebar-section">
+                <p class="sidebar-label">WORKSPACE</p>
+
+                <a href="{% url 'dashboard' %}" class="nav-link">
+                    <span class="nav-icon">◈</span>
+                    Dashboard
+                </a>
+
+                <a href="{% url 'create_task' %}" class="nav-link">
+                    <span class="nav-icon">＋</span>
+                    Create Task
+                </a>
+            </div>
+
+            <div class="sidebar-section">
+                <p class="sidebar-label">ACCOUNT</p>
+
+                <a href="{% url 'profile' %}" class="nav-link">
+                    <span class="nav-icon">◎</span>
+                    My Profile
+                </a>
+
+                {% if user.is_staff %}
+                <a href="{% url 'send_announcement' %}" class="nav-link">
+                    <span class="nav-icon">✉</span>
+                    Email Campaign
+                </a>
+                {% endif %}
+            </div>
+
+            <div class="sidebar-bottom">
+
+                <div class="sidebar-user">
+                    <div class="avatar">
+                        {{ user.username|first|upper }}
+                    </div>
+
+                    <div class="sidebar-user-info">
+                        <strong>{{ user.username }}</strong>
+                        <span>Member</span>
+                    </div>
+                </div>
+
+                <form action="{% url 'logout' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="nav-link logout-button">
+                        <span class="nav-icon">↪</span>
+                        Logout
+                    </button>
+                </form>
+
+            </div>
+
+        </aside>
+
+        <main class="main-content">
+
+            <header class="top-header">
+                <div class="header-left">
+                    <span class="header-indicator"></span>
+                    <span>Personal Workspace</span>
+                </div>
+
+                <div class="header-right">
+                    <span class="header-date">
+                        {% now "F j, Y" %}
+                    </span>
+
+                    <a href="{% url 'profile' %}" class="header-avatar">
+                        {{ user.username|first|upper }}
+                    </a>
+                </div>
+            </header>
+
+            {% if messages %}
+                <div class="messages-container">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            <span>{{ message }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% block content %}
+            {% endblock %}
+
+            <footer class="footer">
+                <p>© {% now "Y" %} TaskFlow. Built for productivity.</p>
+                <p>Stay focused. Get things done.</p>
+            </footer>
+
+        </main>
+
+    </div>
+
+    {% else %}
+
+        {% block auth_content %}
+        {% endblock %}
+
+    {% endif %}
+
+    {% block scripts %}
+    {% endblock %}
+
+</body>
+</html>

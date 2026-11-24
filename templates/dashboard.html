@@ -1,0 +1,170 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Dashboard | TaskFlow{% endblock %}
+
+{% block content %}
+
+<section class="welcome-section">
+    <div class="welcome-content">
+        <span class="eyebrow">YOUR WORKSPACE</span>
+
+        <h1>Welcome back, <span>{{ user.username }}</span> 👋</h1>
+
+        <p>Organize your day, focus on what matters, and achieve more.</p>
+    </div>
+
+    <a href="{% url 'create_task' %}" class="btn btn-primary">
+        + Create New Task
+    </a>
+</section>
+
+
+<section class="stats-grid">
+
+    <div class="stat-card stat-total">
+        <div class="stat-top">
+            <span>Total Tasks</span>
+            <span class="stat-icon">◈</span>
+        </div>
+        <h2>{{ total_tasks }}</h2>
+        <p>All your tasks</p>
+    </div>
+
+    <div class="stat-card stat-pending">
+        <div class="stat-top">
+            <span>Pending</span>
+            <span class="stat-icon">◷</span>
+        </div>
+        <h2>{{ pending_tasks }}</h2>
+        <p>Waiting to start</p>
+    </div>
+
+    <div class="stat-card stat-finished">
+        <div class="stat-top">
+            <span>Finished</span>
+            <span class="stat-icon">✓</span>
+        </div>
+        <h2>{{ finished_tasks }}</h2>
+        <p>Successfully completed</p>
+    </div>
+
+    <div class="stat-card stat-cancelled">
+        <div class="stat-top">
+            <span>Cancelled</span>
+            <span class="stat-icon">×</span>
+        </div>
+        <h2>{{ cancelled_tasks }}</h2>
+        <p>Cancelled tasks</p>
+    </div>
+
+</section>
+
+
+<section class="tasks-section">
+
+    <div class="section-heading">
+        <div>
+            <span class="eyebrow">YOUR PRODUCTIVITY</span>
+            <h2>My Tasks</h2>
+            <p>Manage and track everything in one place.</p>
+        </div>
+
+        <span class="task-count">{{ tasks|length }} Tasks Found</span>
+    </div>
+
+
+    <form method="GET" class="filter-bar">
+
+        <div class="search-box">
+            <span>⌕</span>
+
+            <input
+                type="search"
+                name="search"
+                placeholder="Search your tasks..."
+                value="{{ search }}"
+            >
+        </div>
+
+        <select name="status" class="filter-select">
+            <option value="">All Status</option>
+            <option value="pending" {% if selected_status == 'pending' %}selected{% endif %}>Pending</option>
+            <option value="in_progress" {% if selected_status == 'in_progress' %}selected{% endif %}>In Progress</option>
+            <option value="finished" {% if selected_status == 'finished' %}selected{% endif %}>Finished</option>
+            <option value="cancelled" {% if selected_status == 'cancelled' %}selected{% endif %}>Cancelled</option>
+        </select>
+
+        <select name="priority" class="filter-select">
+            <option value="">All Priority</option>
+            <option value="low" {% if selected_priority == 'low' %}selected{% endif %}>Low</option>
+            <option value="medium" {% if selected_priority == 'medium' %}selected{% endif %}>Medium</option>
+            <option value="high" {% if selected_priority == 'high' %}selected{% endif %}>High</option>
+        </select>
+
+        <button type="submit" class="btn btn-secondary">
+            Filter
+        </button>
+
+        <a href="{% url 'dashboard' %}" class="btn btn-ghost">
+            Reset
+        </a>
+
+    </form>
+
+
+    <div class="task-list">
+
+        {% for task in tasks %}
+
+        <article class="task-card">
+
+            <div class="task-card-main">
+
+                <div class="task-card-info">
+
+                    <div class="task-card-heading">
+                        <h3>{{ task.title }}</h3>
+
+                        <span class="status-badge status-{{ task.status }}">
+                            {{ task.get_status_display }}
+                        </span>
+                    </div>
+
+                    <div class="task-meta">
+                        <span>◷ Created {{ task.created_at|date:"M d, Y · H:i" }}</span>
+
+                        <span class="priority priority-{{ task.priority }}">
+                            {{ task.get_priority_display }} Priority
+                        </span>
+                    </div>
+
+                </div>
+
+                <a href="{% url 'task_detail' task.pk %}" class="btn btn-more">
+                    More →
+                </a>
+
+            </div>
+
+        </article>
+
+        {% empty %}
+
+        <div class="empty-state">
+            <div class="empty-icon">✦</div>
+            <h3>No tasks found</h3>
+            <p>Create your first task or change your search filters.</p>
+
+            <a href="{% url 'create_task' %}" class="btn btn-primary">
+                Create Your First Task
+            </a>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

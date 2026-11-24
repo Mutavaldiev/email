@@ -1,0 +1,106 @@
+
+{% extends 'base.html' %}
+
+{% block title %}My Profile | TaskFlow{% endblock %}
+
+{% block content %}
+
+<section class="page-heading">
+    <span class="eyebrow">ACCOUNT SETTINGS</span>
+    <h1>My Profile</h1>
+    <p>Manage your personal account and productivity.</p>
+</section>
+
+<div class="profile-panel">
+
+    <div class="profile-cover">
+        <div class="profile-avatar">
+            {{ user.username|first|upper }}
+        </div>
+    </div>
+
+    <div class="profile-information">
+        <h2>{{ user.username }}</h2>
+        <p>{{ user.email }}</p>
+
+        <span class="profile-role">
+            {% if user.is_staff %}
+                Administrator
+            {% else %}
+                TaskFlow Member
+            {% endif %}
+        </span>
+    </div>
+
+    <div class="profile-stats">
+
+        <div class="profile-stat">
+            <span>Total Tasks</span>
+            <strong>{{ total_tasks }}</strong>
+        </div>
+
+        <div class="profile-stat">
+            <span>Finished</span>
+            <strong>{{ finished_tasks }}</strong>
+        </div>
+
+        <div class="profile-stat">
+            <span>Pending</span>
+            <strong>{{ pending_tasks }}</strong>
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="section-heading">
+    <div>
+        <span class="eyebrow">YOUR ACTIVITY</span>
+        <h2>Recent Tasks</h2>
+    </div>
+</div>
+
+<div class="task-list">
+
+    {% for task in tasks|slice:":5" %}
+
+    <article class="task-card">
+        <div class="task-card-main">
+
+            <div class="task-card-info">
+                <div class="task-card-heading">
+                    <h3>{{ task.title }}</h3>
+
+                    <span class="status-badge status-{{ task.status }}">
+                        {{ task.get_status_display }}
+                    </span>
+                </div>
+
+                <div class="task-meta">
+                    <span>◷ {{ task.created_at|date:"M d, Y" }}</span>
+                </div>
+            </div>
+
+            <a href="{% url 'task_detail' task.pk %}" class="btn btn-more">
+                More →
+            </a>
+
+        </div>
+    </article>
+
+    {% empty %}
+
+    <div class="empty-state">
+        <h3>No activity yet</h3>
+        <p>Your created tasks will appear here.</p>
+        <a href="{% url 'create_task' %}" class="btn btn-primary">
+            Create Task
+        </a>
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

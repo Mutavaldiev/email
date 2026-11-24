@@ -1,0 +1,97 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Create Account | TaskFlow{% endblock %}
+
+{% block auth_content %}
+
+<div class="auth-page">
+
+    <div class="auth-visual">
+        <div class="auth-visual-content">
+            <span class="eyebrow">YOUR NEXT CHAPTER</span>
+
+            <h1>Make every<br>day <span>count.</span></h1>
+
+            <p>One workspace. Endless possibilities. Build better habits and achieve your goals with TaskFlow.</p>
+
+            <div class="auth-feature">
+                <span>✦</span>
+                <p>Plan smarter. Work better. Achieve more.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="auth-form-side">
+
+        <div class="auth-form-wrapper">
+
+            <a href="{% url 'login' %}" class="logo auth-logo">
+                <span class="logo-icon">✦</span>
+                Task<span>Flow</span>
+            </a>
+
+            <span class="eyebrow">GET STARTED</span>
+            <h2>Create your account</h2>
+            <p class="auth-subtitle">Join TaskFlow and take control of your productivity.</p>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input
+                        type="text"
+                        name="username"
+                        id="username"
+                        placeholder="Choose a username"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        placeholder="you@example.com"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        placeholder="Create a strong password"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="btn btn-primary auth-submit">
+                    Create Account →
+                </button>
+
+            </form>
+
+            <p class="auth-bottom">
+                Already have an account?
+                <a href="{% url 'login' %}">Sign In</a>
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

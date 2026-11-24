@@ -1,0 +1,88 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Sign In | TaskFlow{% endblock %}
+
+{% block auth_content %}
+
+<div class="auth-page">
+
+    <div class="auth-visual">
+        <div class="auth-visual-content">
+            <span class="eyebrow">WELCOME BACK</span>
+
+            <h1>Your goals.<br>Your <span>journey.</span></h1>
+
+            <p>Stay organized, track your progress, and turn your plans into achievements.</p>
+
+            <div class="auth-feature">
+                <span>✦</span>
+                <p>Your productivity starts here.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="auth-form-side">
+
+        <div class="auth-form-wrapper">
+
+            <a href="{% url 'registration' %}" class="logo auth-logo">
+                <span class="logo-icon">✦</span>
+                Task<span>Flow</span>
+            </a>
+
+            <span class="eyebrow">WELCOME BACK</span>
+            <h2>Sign in to TaskFlow</h2>
+            <p class="auth-subtitle">Enter your details to access your workspace.</p>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+
+                    <input
+                        type="text"
+                        name="username"
+                        id="username"
+                        placeholder="Enter your username"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        placeholder="Enter your password"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="btn btn-primary auth-submit">
+                    Sign In →
+                </button>
+
+            </form>
+
+            <p class="auth-bottom">
+                Don't have an account?
+                <a href="{% url 'registration' %}">Create Account</a>
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
