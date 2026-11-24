@@ -1,41 +1,30 @@
-
 {% extends 'base.html' %}
-
 {% block title %}{{ task.title }} | TaskFlow{% endblock %}
-
 {% block content %}
-
 <section class="page-heading">
     <span class="eyebrow">TASK DETAILS</span>
     <h1>{{ task.title }}</h1>
     <p>View and manage your task.</p>
 </section>
-
 <div class="detail-panel">
-
     <div class="detail-header">
         <div>
             <span class="eyebrow">CURRENT STATUS</span>
             <h2>{{ task.title }}</h2>
         </div>
-
         <span class="status-badge status-{{ task.status }}">
             {{ task.get_status_display }}
         </span>
     </div>
-
     <div class="detail-description">
         <h3>Description</h3>
-
         {% if task.description %}
             <p>{{ task.description|linebreaksbr }}</p>
         {% else %}
             <p>No description provided.</p>
         {% endif %}
     </div>
-
     <div class="detail-grid">
-
         <div class="detail-item">
             <span>Priority</span>
             <strong class="priority priority-{{ task.priority }}">

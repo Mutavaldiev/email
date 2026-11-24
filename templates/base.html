@@ -1,44 +1,31 @@
-
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>{% block title %}TaskFlow{% endblock %}</title>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="{% static 'style.css' %}">
-
     {% block extra_head %}{% endblock %}
 </head>
-
 <body>
 
     {% if user.is_authenticated %}
-
     <div class="app-wrapper">
-
         <aside class="sidebar">
-
             <a href="{% url 'dashboard' %}" class="logo">
                 <span class="logo-icon">✦</span>
                 Task<span>Flow</span>
             </a>
-
             <div class="sidebar-section">
                 <p class="sidebar-label">WORKSPACE</p>
-
                 <a href="{% url 'dashboard' %}" class="nav-link">
                     <span class="nav-icon">◈</span>
                     Dashboard
                 </a>
-
                 <a href="{% url 'create_task' %}" class="nav-link">
                     <span class="nav-icon">＋</span>
                     Create Task
@@ -47,7 +34,6 @@
 
             <div class="sidebar-section">
                 <p class="sidebar-label">ACCOUNT</p>
-
                 <a href="{% url 'profile' %}" class="nav-link">
                     <span class="nav-icon">◎</span>
                     My Profile
@@ -62,12 +48,10 @@
             </div>
 
             <div class="sidebar-bottom">
-
                 <div class="sidebar-user">
                     <div class="avatar">
                         {{ user.username|first|upper }}
                     </div>
-
                     <div class="sidebar-user-info">
                         <strong>{{ user.username }}</strong>
                         <span>Member</span>

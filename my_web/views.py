@@ -238,11 +238,7 @@ def finish_task(request, pk):
 
 @login_required
 def cancel_task(request, pk):
-    task = get_object_or_404(
-        Task,
-        pk=pk,
-        user=request.user
-    )
+    task = get_object_or_404(Task,pk=pk,user=request.user)
     if request.method == 'POST':
         task.status = 'cancelled'
         task.save()
@@ -255,17 +251,8 @@ def cancel_task(request, pk):
 @login_required
 def profile(request):
     tasks = Task.objects.filter(user=request.user)
-    context = {
-        'user': request.user,
-        'tasks': tasks,
-        'total_tasks': tasks.count(),
-        'finished_tasks': tasks.filter(
-            status='finished'
-        ).count(),
-        'pending_tasks': tasks.filter(
-            status='pending'
-        ).count(),
-    }
+    context = {'user': request.user,'tasks': tasks,'total_tasks': tasks.count(),'finished_tasks': tasks.filter(status='finished').count(),
+        'pending_tasks': tasks.filter(status='pending').count(),}
     return render(request, 'profile.html', context)
 
 
@@ -279,9 +266,7 @@ def send_announcement(request):
         if not subject or not message:
             messages.error(request, 'All fields are required.')
             return redirect('send_announcement')
-        emails = User.objects.filter(
-            is_active=True
-        ).exclude(
+        emails = User.objects.filter(is_active=True).exclude(
             email=''
         ).values_list('email', flat=True)
         sent_count = 0

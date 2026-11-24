@@ -1,10 +1,6 @@
-
 {% extends 'base.html' %}
-
 {% block title %}Email Campaign | TaskFlow{% endblock %}
-
 {% block content %}
-
 <section class="page-heading">
     <span class="eyebrow">COMMUNICATION CENTER</span>
     <h1>Email Campaign</h1>
@@ -12,9 +8,7 @@
 </section>
 
 <div class="form-layout">
-
     <div class="form-panel">
-
         <div class="campaign-heading">
             <div class="campaign-icon">✉</div>
             <div>
@@ -22,61 +16,35 @@
                 <p>Compose an email for your registered users.</p>
             </div>
         </div>
-
         <form method="POST">
             {% csrf_token %}
-
             <div class="form-group">
                 <label for="subject">Email Subject</label>
-
-                <input
-                    type="text"
-                    name="subject"
-                    id="subject"
-                    placeholder="Enter email subject..."
-                    required
-                >
+                <inputtype="text"name="subject"id="subject"placeholder="Enter email subject..."required>
             </div>
 
             <div class="form-group">
                 <label for="message">Message</label>
-
-                <textarea
-                    name="message"
-                    id="message"
-                    rows="10"
-                    placeholder="Write your announcement..."
-                    required
-                ></textarea>
+                <textarea name="message" id="message" rows="10" placeholder="Write your announcement..." required></textarea>
             </div>
-
             <div class="form-actions">
                 <a href="{% url 'dashboard' %}" class="btn btn-ghost">
                     Cancel
                 </a>
-
                 <button type="submit" class="btn btn-primary">
                     Send Announcement →
                 </button>
             </div>
-
         </form>
-
     </div>
-
     <aside class="form-side-card">
         <div class="side-card-icon">◎</div>
-
         <h3>Reach your community.</h3>
-
         <p>Your announcement will be sent to all active users with registered email addresses.</p>
-
         <div class="campaign-note">
             <strong>Important</strong>
             <span>Make sure your message is correct before sending. Email campaigns cannot be recalled.</span>
         </div>
     </aside>
-
 </div>
-
 {% endblock %}

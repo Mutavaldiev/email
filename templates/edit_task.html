@@ -1,58 +1,35 @@
-
 {% extends 'base.html' %}
-
 {% block title %}Edit Task | TaskFlow{% endblock %}
-
 {% block content %}
-
 <section class="page-heading">
     <span class="eyebrow">TASK MANAGEMENT</span>
     <h1>Edit Task</h1>
     <p>Update your task information and progress.</p>
 </section>
-
 <div class="form-panel">
-
     <form method="POST">
         {% csrf_token %}
-
         <div class="form-group">
             <label for="title">Task Title *</label>
-
-            <input
-                type="text"
-                name="title"
-                id="title"
-                value="{{ task.title }}"
-                required
-            >
+            <input type="text" name="title" id="title" value="{{ task.title }}" required>
         </div>
 
         <div class="form-group">
             <label for="description">Description</label>
-
-            <textarea
-                name="description"
-                id="description"
-                rows="6"
-            >{{ task.description }}</textarea>
+            <textarea name="description" id="description" rows="6">{{ task.description }}</textarea>
         </div>
 
         <div class="form-row">
-
             <div class="form-group">
                 <label for="priority">Priority</label>
-
                 <select name="priority" id="priority">
                     <option value="low" {% if task.priority == 'low' %}selected{% endif %}>Low</option>
                     <option value="medium" {% if task.priority == 'medium' %}selected{% endif %}>Medium</option>
                     <option value="high" {% if task.priority == 'high' %}selected{% endif %}>High</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label for="status">Status</label>
-
                 <select name="status" id="status">
                     <option value="pending" {% if task.status == 'pending' %}selected{% endif %}>Pending</option>
                     <option value="in_progress" {% if task.status == 'in_progress' %}selected{% endif %}>In Progress</option>
@@ -62,30 +39,18 @@
             </div>
 
         </div>
-
         <div class="form-group">
             <label for="deadline">Deadline</label>
-
-            <input
-                type="date"
-                name="deadline"
-                id="deadline"
-                value="{{ task.deadline|date:'Y-m-d' }}"
-            >
+            <input type="date" name="deadline" id="deadline" value="{{ task.deadline|date:'Y-m-d' }}">
         </div>
-
         <div class="form-actions">
             <a href="{% url 'task_detail' task.pk %}" class="btn btn-ghost">
                 Back
             </a>
-
             <button type="submit" class="btn btn-primary">
                 Save Changes →
             </button>
         </div>
-
     </form>
-
 </div>
-
 {% endblock %}
